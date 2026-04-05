@@ -1,68 +1,138 @@
-import Image from "next/image";
+import Link from 'next/link';
 
 export default function ProfilePage() {
   return (
-    <div className="relative min-h-screen w-full overflow-hidden bg-gray-50 flex items-center justify-center p-4 selection:bg-purple-500/30 dark:bg-black/90">
-      {/* Animated Background Blobs */}
-      <div className="absolute top-0 -left-4 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-2xl opacity-70 animate-[blob_7s_infinite] dark:opacity-30"></div>
-      <div className="absolute top-0 -right-4 w-72 h-72 bg-fuchsia-500 rounded-full mix-blend-multiply filter blur-2xl opacity-70 animate-[blob_7s_infinite_2s] dark:opacity-30"></div>
-      <div className="absolute -bottom-8 left-20 w-72 h-72 bg-blue-500 rounded-full mix-blend-multiply filter blur-2xl opacity-70 animate-[blob_7s_infinite_4s] dark:opacity-30"></div>
-
-      {/* Main Glassmorphism Card */}
-      <div className="relative z-10 w-full max-w-lg rounded-3xl bg-white/50 dark:bg-black/40 p-8 shadow-2xl backdrop-blur-xl border border-white/40 dark:border-white/10 transform transition-all duration-500 hover:-translate-y-1">
-        
-        {/* Profile Image Section */}
-        <div className="relative mx-auto mb-6 h-32 w-32 overflow-hidden rounded-full border-4 border-white/60 dark:border-white/10 shadow-lg group">
-          <Image
-            src="/profile.png"
-            alt="송민진 프로필 이미지"
-            fill
-            className="object-cover transition-transform duration-500 group-hover:scale-110"
-            priority
-          />
+    <div className="min-h-screen bg-background text-foreground font-sans selection:bg-pink-400 selection:text-black">
+      {/* Navigation */}
+      <nav className="border-b-4 border-foreground p-4 lg:px-8 flex justify-between items-center bg-yellow-400 dark:bg-purple-900 overflow-hidden">
+        <div className="text-2xl sm:text-3xl font-black tracking-tighter uppercase whitespace-nowrap">Minjin Song</div>
+        <div className="space-x-6 hidden sm:block font-bold text-lg">
+          <Link href="#about" className="hover:underline decoration-4">About</Link>
+          <Link href="#skills" className="hover:underline decoration-4">Skills</Link>
+          <Link href="#contact" className="hover:underline decoration-4">Contact</Link>
         </div>
+      </nav>
 
-        {/* Text Content */}
-        <div className="text-center">
-          <h1 className="mb-2 text-4xl sm:text-5xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-600 to-fuchsia-500 drop-shadow-sm dark:from-blue-400 dark:via-purple-500 dark:to-fuchsia-400">
-            송민진
+      <main className="max-w-7xl mx-auto p-4 sm:p-8 lg:p-12 pb-24 space-y-24 sm:space-y-32">
+        
+        {/* HERO SECTION */}
+        <section id="about" className="pt-12 sm:pt-24 flex flex-col items-start gap-8 relative">
+          <div className="inline-block bg-pink-400 dark:bg-pink-600 border-4 border-foreground px-4 py-2 font-black text-xl md:text-2xl uppercase transform -rotate-2 shadow-[8px_8px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_rgba(255,255,255,1)]">
+            Hello, World!
+          </div>
+          <h1 className="text-6xl sm:text-7xl lg:text-9xl font-black leading-none tracking-tighter uppercase">
+            I build <br className="hidden sm:block" /> 
+            <span className="inline-block bg-blue-400 dark:bg-blue-600 px-2 sm:px-4 mt-2 sm:mt-4 border-4 sm:border-y-8 sm:border-x-4 border-foreground shadow-[8px_8px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_rgba(255,255,255,1)]">Digital</span> 
+            <br className="hidden lg:block"/> Experiences
           </h1>
-          <h2 className="mb-6 text-lg font-medium text-gray-700 dark:text-gray-300">
-            Vibe Coding Student
-          </h2>
-          <p className="mb-8 text-base text-gray-700 dark:text-gray-400 leading-relaxed font-medium">
-            안녕하세요! 트렌디한 기술로 세상을 바꾸고 싶은 대학생입니다. 
-            주로 <span className="font-semibold text-purple-600 dark:text-purple-400">Next.js</span>와 <span className="font-semibold text-blue-600 dark:text-blue-400">Tailwind CSS</span>를 활용한 직관적이고 아름다운 UI/UX 구현에 관심이 많습니다. 요즘은 <span className="font-semibold text-fuchsia-600 dark:text-fuchsia-400">바이브 코딩</span>에 푹 빠져 있어요!
+          <p className="text-xl sm:text-2xl lg:text-3xl font-bold max-w-3xl mt-4 leading-tight border-l-8 border-foreground pl-6 py-2">
+            안녕하세요! 송민진입니다. 트렌디한 기술로 세상을 바꾸고 싶은 Vibe Coding Student. Next.js와 Tailwind CSS를 활용한 직관적이고 강렬한 UI/UX를 구현합니다.
           </p>
+          
+          {/* Decorative element */}
+          <div className="absolute right-0 top-10 hidden lg:block select-none pointer-events-none">
+            <div className="w-48 h-48 bg-yellow-400 dark:bg-yellow-600 border-4 border-foreground rounded-full shadow-[8px_8px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_rgba(255,255,255,1)] animate-bounce"></div>
+          </div>
+        </section>
 
-          {/* Action Buttons */}
-          <div className="flex flex-wrap justify-center gap-4">
-            <a
-              href="mailto:contact@example.com"
-              className="flex items-center gap-2 rounded-full bg-gradient-to-r from-purple-600 to-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-purple-500/30 transition-all hover:-translate-y-1 hover:shadow-purple-500/50"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-mail"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-              Contact Me
-            </a>
-            
-            {/* Social Links */}
-            <div className="flex items-center gap-3">
-              <a href="https://github.com/CassTerra77" target="_blank" rel="noopener noreferrer" className="rounded-full bg-white/80 dark:bg-white/5 p-3 text-gray-800 dark:text-gray-200 transition-all hover:-translate-y-1 hover:bg-white dark:hover:bg-white/10 shadow-sm border border-black/5 dark:border-white/5">
-                <span className="sr-only">GitHub</span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.698-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.528 2.341 1.087 2.91.83.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.577.688.48C19.138 20.161 22 16.416 22 12c0-5.523-4.477-10-10-10z"/></svg>
-              </a>
-              <a href="#" className="rounded-full bg-white/80 dark:bg-white/5 p-3 text-gray-800 dark:text-gray-200 transition-all hover:-translate-y-1 hover:bg-white dark:hover:bg-white/10 shadow-sm border border-black/5 dark:border-white/5">
-                <span className="sr-only">Instagram</span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
-              </a>
-              <a href="#" className="rounded-full bg-white/80 dark:bg-white/5 p-3 text-gray-800 dark:text-gray-200 transition-all hover:-translate-y-1 hover:bg-white dark:hover:bg-white/10 shadow-sm border border-black/5 dark:border-white/5">
-                <span className="sr-only">LinkedIn</span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zM7.119 20.452H3.554V9h3.565v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-              </a>
+        {/* SKILLS SECTION */}
+        <section id="skills" className="space-y-8 sm:space-y-12">
+          <h2 className="text-4xl sm:text-6xl font-black uppercase tracking-tight border-b-8 border-foreground pb-4 inline-block">
+            Tech Stack
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* Skill Card 1 */}
+            <div className="bg-emerald-400 dark:bg-emerald-700 border-4 border-foreground p-6 sm:p-8 shadow-[8px_8px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_rgba(255,255,255,1)] hover:translate-x-1 hover:translate-y-1 hover:shadow-[4px_4px_0px_rgba(0,0,0,1)] dark:hover:shadow-[4px_4px_0px_rgba(255,255,255,1)] transition-all cursor-crosshair">
+              <div className="w-12 h-12 bg-white dark:bg-black border-4 border-foreground mb-6 rounded-full flex items-center justify-center">
+                 <span className="font-black">1</span>
+              </div>
+              <h3 className="text-3xl font-black mb-4 uppercase">Frontend</h3>
+              <ul className="text-lg font-bold space-y-3">
+                <li className="flex items-center gap-2"><span className="w-2 h-2 bg-foreground inline-block"></span> React 19</li>
+                <li className="flex items-center gap-2"><span className="w-2 h-2 bg-foreground inline-block"></span> Next.js (App Router)</li>
+                <li className="flex items-center gap-2"><span className="w-2 h-2 bg-foreground inline-block"></span> TypeScript</li>
+                <li className="flex items-center gap-2"><span className="w-2 h-2 bg-foreground inline-block"></span> Tailwind CSS 4</li>
+              </ul>
+            </div>
+            {/* Skill Card 2 */}
+            <div className="bg-yellow-400 dark:bg-yellow-600 border-4 border-foreground p-6 sm:p-8 shadow-[8px_8px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_rgba(255,255,255,1)] hover:translate-x-1 hover:translate-y-1 hover:shadow-[4px_4px_0px_rgba(0,0,0,1)] dark:hover:shadow-[4px_4px_0px_rgba(255,255,255,1)] transition-all cursor-crosshair">
+              <div className="w-12 h-12 bg-white dark:bg-black border-4 border-foreground mb-6 flex items-center justify-center">
+                 <span className="font-black transform rotate-45">2</span>
+              </div>
+              <h3 className="text-3xl font-black mb-4 uppercase">Design</h3>
+              <ul className="text-lg font-bold space-y-3">
+                <li className="flex items-center gap-2"><span className="w-2 h-2 bg-foreground inline-block"></span> Figma</li>
+                <li className="flex items-center gap-2"><span className="w-2 h-2 bg-foreground inline-block"></span> UI/UX Prototyping</li>
+                <li className="flex items-center gap-2"><span className="w-2 h-2 bg-foreground inline-block"></span> Neobrutalism</li>
+                <li className="flex items-center gap-2"><span className="w-2 h-2 bg-foreground inline-block"></span> Responsive Web</li>
+              </ul>
+            </div>
+            {/* Skill Card 3 */}
+            <div className="bg-red-400 dark:bg-red-700 border-4 border-foreground p-6 sm:p-8 shadow-[8px_8px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_rgba(255,255,255,1)] hover:translate-x-1 hover:translate-y-1 hover:shadow-[4px_4px_0px_rgba(0,0,0,1)] dark:hover:shadow-[4px_4px_0px_rgba(255,255,255,1)] transition-all cursor-crosshair">
+              <div className="w-12 h-12 bg-white dark:bg-black border-4 border-foreground mb-6 clip-path-polygon-[50%_0%,_0%_100%,_100%_100%] flex items-center justify-center">
+                 <span className="font-black">3</span>
+              </div>
+              <h3 className="text-3xl font-black mb-4 uppercase">Workflow</h3>
+              <ul className="text-lg font-bold space-y-3">
+                <li className="flex items-center gap-2"><span className="w-2 h-2 bg-foreground inline-block"></span> Vibe Coding</li>
+                <li className="flex items-center gap-2"><span className="w-2 h-2 bg-foreground inline-block"></span> Git / GitHub</li>
+                <li className="flex items-center gap-2"><span className="w-2 h-2 bg-foreground inline-block"></span> Vercel Deployment</li>
+                <li className="flex items-center gap-2"><span className="w-2 h-2 bg-foreground inline-block"></span> Agile Methods</li>
+              </ul>
             </div>
           </div>
-        </div>
-      </div>
+        </section>
+
+        {/* MOCK PROJECTS SECTION */}
+        <section id="projects" className="space-y-8 sm:space-y-12">
+          <h2 className="text-4xl sm:text-6xl font-black uppercase tracking-tight border-b-8 border-foreground pb-4 inline-block">
+            Projects
+          </h2>
+          <div className="space-y-8">
+            <div className="flex flex-col lg:flex-row border-4 border-foreground bg-white dark:bg-gray-800 shadow-[12px_12px_0px_rgba(0,0,0,1)] dark:shadow-[12px_12px_0px_rgba(255,255,255,1)] overflow-hidden group">
+              <div className="w-full lg:w-2/5 bg-purple-400 dark:bg-purple-700 border-b-4 lg:border-b-0 lg:border-r-4 border-foreground p-8 flex items-center justify-center transition-colors group-hover:bg-purple-500">
+                <span className="text-5xl sm:text-6xl font-black text-center transform -rotate-12 transition-transform group-hover:rotate-0 group-hover:scale-110">PROJECT<br/>ALPHA</span>
+              </div>
+              <div className="p-8 lg:p-12 w-full lg:w-3/5 flex flex-col justify-center">
+                <h3 className="text-3xl sm:text-4xl font-black mb-4 uppercase">My Web Portfolio</h3>
+                <p className="text-xl font-bold mb-8 leading-relaxed">개인 브랜드 강화를 위한 네오브루탈리즘 스타일 랜딩 페이지 구축. 심플하면서도 강렬한 인상을 남기도록 디자인되었습니다.</p>
+                <div className="flex flex-wrap gap-4 font-bold">
+                  <span className="bg-foreground text-background px-4 py-2 text-sm uppercase">Next.js</span>
+                  <span className="bg-foreground text-background px-4 py-2 text-sm uppercase">Tailwind css</span>
+                </div>
+              </div>
+            </div>
+            
+             <div className="flex flex-col lg:flex-row-reverse border-4 border-foreground bg-white dark:bg-gray-800 shadow-[12px_12px_0px_rgba(0,0,0,1)] dark:shadow-[12px_12px_0px_rgba(255,255,255,1)] overflow-hidden group">
+              <div className="w-full lg:w-2/5 bg-blue-400 dark:bg-blue-700 border-b-4 lg:border-b-0 lg:border-l-4 border-foreground p-8 flex items-center justify-center transition-colors group-hover:bg-blue-500">
+                <span className="text-5xl sm:text-6xl font-black text-center transform rotate-6 transition-transform group-hover:rotate-0 group-hover:scale-110">CLONE<br/>APP</span>
+              </div>
+              <div className="p-8 lg:p-12 w-full lg:w-3/5 flex flex-col justify-center">
+                <h3 className="text-3xl sm:text-4xl font-black mb-4 uppercase">Social Media Dashboard</h3>
+                <p className="text-xl font-bold mb-8 leading-relaxed">다양한 차트와 데이터를 한눈에 볼 수 있는 대시보드 애플리케이션 시안입니다. 컴포넌트 재사용성을 고려하여 설계되었습니다.</p>
+                <div className="flex flex-wrap gap-4 font-bold">
+                  <span className="bg-foreground text-background px-4 py-2 text-sm uppercase">React</span>
+                  <span className="bg-foreground text-background px-4 py-2 text-sm uppercase">Framer Motion</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* CONTACT SECTION */}
+        <section id="contact" className="pt-16 sm:pt-24 pb-32 flex flex-col items-center text-center">
+          <h2 className="text-6xl sm:text-8xl md:text-9xl font-black uppercase mb-12 transform rotate-1 border-b-8 border-foreground">Let's Talk!</h2>
+          <div className="flex flex-col sm:flex-row justify-center gap-6 sm:gap-8 w-full max-w-4xl px-4">
+            <a href="mailto:contact@example.com" className="w-full sm:w-1/2 bg-blue-500 dark:bg-blue-600 text-white text-3xl sm:text-4xl font-black px-8 py-8 border-4 border-foreground shadow-[12px_12px_0px_rgba(0,0,0,1)] dark:shadow-[12px_12px_0px_rgba(255,255,255,1)] hover:translate-x-2 hover:translate-y-2 hover:shadow-[4px_4px_0px_rgba(0,0,0,1)] dark:hover:shadow-[4px_4px_0px_rgba(255,255,255,1)] active:translate-x-3 active:translate-y-3 active:shadow-none transition-all uppercase flex justify-center items-center gap-4">
+               Email Me
+            </a>
+            <a href="https://github.com/CassTerra77" target="_blank" rel="noopener noreferrer" className="w-full sm:w-1/2 bg-white dark:bg-black text-black dark:text-white text-3xl sm:text-4xl font-black px-8 py-8 border-4 border-foreground shadow-[12px_12px_0px_rgba(0,0,0,1)] dark:shadow-[12px_12px_0px_rgba(255,255,255,1)] hover:translate-x-2 hover:translate-y-2 hover:shadow-[4px_4px_0px_rgba(0,0,0,1)] dark:hover:shadow-[4px_4px_0px_rgba(255,255,255,1)] active:translate-x-3 active:translate-y-3 active:shadow-none transition-all uppercase flex justify-center items-center gap-4">
+               GitHub
+            </a>
+          </div>
+        </section>
+
+      </main>
     </div>
   );
 }
