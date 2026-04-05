@@ -4,7 +4,7 @@ export default function ProfilePage() {
   return (
     <div className="min-h-screen bg-background text-foreground font-sans selection:bg-pink-400 selection:text-black">
       {/* Navigation */}
-      <nav className="border-b-4 border-foreground p-4 lg:px-8 flex justify-between items-center bg-yellow-400 dark:bg-purple-900 overflow-hidden">
+      <nav className="border-b-4 border-foreground p-4 lg:px-8 flex justify-between items-center bg-yellow-400 overflow-hidden">
         <div className="text-2xl sm:text-3xl font-black tracking-tighter uppercase whitespace-nowrap">Minjin Song</div>
         <div className="space-x-6 hidden sm:block font-bold text-lg">
           <Link href="#about" className="hover:underline decoration-4">About</Link>
@@ -17,12 +17,12 @@ export default function ProfilePage() {
         
         {/* HERO SECTION */}
         <section id="about" className="pt-12 sm:pt-24 flex flex-col items-start gap-8 relative">
-          <div className="inline-block bg-pink-400 dark:bg-pink-600 border-4 border-foreground px-4 py-2 font-black text-xl md:text-2xl uppercase transform -rotate-2 shadow-[8px_8px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_rgba(255,255,255,1)]">
+          <div className="inline-block bg-pink-400 border-4 border-foreground px-4 py-2 font-black text-xl md:text-2xl uppercase transform -rotate-2 shadow-[8px_8px_0px_rgba(0,0,0,1)]">
             Hello, World!
           </div>
           <h1 className="text-6xl sm:text-7xl lg:text-9xl font-black leading-none tracking-tighter uppercase">
             I build <br className="hidden sm:block" /> 
-            <span className="inline-block bg-blue-400 dark:bg-blue-600 px-2 sm:px-4 mt-2 sm:mt-4 border-4 sm:border-y-8 sm:border-x-4 border-foreground shadow-[8px_8px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_rgba(255,255,255,1)]">Digital</span> 
+            <span className="inline-block bg-blue-400 px-2 sm:px-4 mt-2 sm:mt-4 border-4 sm:border-y-8 sm:border-x-4 border-foreground shadow-[8px_8px_0px_rgba(0,0,0,1)]">Digital</span> 
             <br className="hidden lg:block"/> Experiences
           </h1>
           <p className="text-xl sm:text-2xl lg:text-3xl font-bold max-w-3xl mt-4 leading-tight border-l-8 border-foreground pl-6 py-2">
@@ -31,7 +31,7 @@ export default function ProfilePage() {
           
           {/* Decorative element */}
           <div className="absolute right-0 top-10 hidden lg:block select-none pointer-events-none">
-            <div className="w-48 h-48 bg-yellow-400 dark:bg-yellow-600 border-4 border-foreground rounded-full shadow-[8px_8px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_rgba(255,255,255,1)] animate-bounce"></div>
+            <div className="w-48 h-48 bg-yellow-400 border-4 border-foreground rounded-full shadow-[8px_8px_0px_rgba(0,0,0,1)] animate-bounce"></div>
           </div>
         </section>
 
@@ -42,8 +42,8 @@ export default function ProfilePage() {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* Skill Card 1 */}
-            <div className="bg-emerald-400 dark:bg-emerald-700 border-4 border-foreground p-6 sm:p-8 shadow-[8px_8px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_rgba(255,255,255,1)] hover:translate-x-1 hover:translate-y-1 hover:shadow-[4px_4px_0px_rgba(0,0,0,1)] dark:hover:shadow-[4px_4px_0px_rgba(255,255,255,1)] transition-all cursor-crosshair">
-              <div className="w-12 h-12 bg-white dark:bg-black border-4 border-foreground mb-6 rounded-full flex items-center justify-center">
+            <div className="bg-emerald-400 border-4 border-foreground p-6 sm:p-8 shadow-[8px_8px_0px_rgba(0,0,0,1)] hover:translate-x-1 hover:translate-y-1 hover:shadow-[4px_4px_0px_rgba(0,0,0,1)] transition-all cursor-crosshair">
+              <div className="w-12 h-12 bg-black text-white border-4 border-foreground mb-6 rounded-full flex items-center justify-center">
                  <span className="font-black">1</span>
               </div>
               <h3 className="text-3xl font-black mb-4 uppercase">Frontend</h3>
@@ -55,8 +55,8 @@ export default function ProfilePage() {
               </ul>
             </div>
             {/* Skill Card 2 */}
-            <div className="bg-yellow-400 dark:bg-yellow-600 border-4 border-foreground p-6 sm:p-8 shadow-[8px_8px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_rgba(255,255,255,1)] hover:translate-x-1 hover:translate-y-1 hover:shadow-[4px_4px_0px_rgba(0,0,0,1)] dark:hover:shadow-[4px_4px_0px_rgba(255,255,255,1)] transition-all cursor-crosshair">
-              <div className="w-12 h-12 bg-white dark:bg-black border-4 border-foreground mb-6 flex items-center justify-center">
+            <div className="bg-yellow-400 border-4 border-foreground p-6 sm:p-8 shadow-[8px_8px_0px_rgba(0,0,0,1)] hover:translate-x-1 hover:translate-y-1 hover:shadow-[4px_4px_0px_rgba(0,0,0,1)] transition-all cursor-crosshair">
+              <div className="w-12 h-12 bg-black text-white border-4 border-foreground mb-6 flex items-center justify-center">
                  <span className="font-black transform rotate-45">2</span>
               </div>
               <h3 className="text-3xl font-black mb-4 uppercase">Design</h3>
@@ -68,8 +68,8 @@ export default function ProfilePage() {
               </ul>
             </div>
             {/* Skill Card 3 */}
-            <div className="bg-red-400 dark:bg-red-700 border-4 border-foreground p-6 sm:p-8 shadow-[8px_8px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_rgba(255,255,255,1)] hover:translate-x-1 hover:translate-y-1 hover:shadow-[4px_4px_0px_rgba(0,0,0,1)] dark:hover:shadow-[4px_4px_0px_rgba(255,255,255,1)] transition-all cursor-crosshair">
-              <div className="w-12 h-12 bg-white dark:bg-black border-4 border-foreground mb-6 clip-path-polygon-[50%_0%,_0%_100%,_100%_100%] flex items-center justify-center">
+            <div className="bg-red-400 border-4 border-foreground p-6 sm:p-8 shadow-[8px_8px_0px_rgba(0,0,0,1)] hover:translate-x-1 hover:translate-y-1 hover:shadow-[4px_4px_0px_rgba(0,0,0,1)] transition-all cursor-crosshair">
+              <div className="w-12 h-12 bg-black text-white border-4 border-foreground mb-6 clip-path-polygon-[50%_0%,_0%_100%,_100%_100%] flex items-center justify-center">
                  <span className="font-black">3</span>
               </div>
               <h3 className="text-3xl font-black mb-4 uppercase">Workflow</h3>
@@ -89,8 +89,8 @@ export default function ProfilePage() {
             Projects
           </h2>
           <div className="space-y-8">
-            <div className="flex flex-col lg:flex-row border-4 border-foreground bg-white dark:bg-gray-800 shadow-[12px_12px_0px_rgba(0,0,0,1)] dark:shadow-[12px_12px_0px_rgba(255,255,255,1)] overflow-hidden group">
-              <div className="w-full lg:w-2/5 bg-purple-400 dark:bg-purple-700 border-b-4 lg:border-b-0 lg:border-r-4 border-foreground p-8 flex items-center justify-center transition-colors group-hover:bg-purple-500">
+            <div className="flex flex-col lg:flex-row border-4 border-foreground bg-white shadow-[12px_12px_0px_rgba(0,0,0,1)] overflow-hidden group">
+              <div className="w-full lg:w-2/5 bg-purple-400 border-b-4 lg:border-b-0 lg:border-r-4 border-foreground p-8 flex items-center justify-center transition-colors group-hover:bg-purple-500">
                 <span className="text-5xl sm:text-6xl font-black text-center transform -rotate-12 transition-transform group-hover:rotate-0 group-hover:scale-110">PROJECT<br/>ALPHA</span>
               </div>
               <div className="p-8 lg:p-12 w-full lg:w-3/5 flex flex-col justify-center">
@@ -103,8 +103,8 @@ export default function ProfilePage() {
               </div>
             </div>
             
-             <div className="flex flex-col lg:flex-row-reverse border-4 border-foreground bg-white dark:bg-gray-800 shadow-[12px_12px_0px_rgba(0,0,0,1)] dark:shadow-[12px_12px_0px_rgba(255,255,255,1)] overflow-hidden group">
-              <div className="w-full lg:w-2/5 bg-blue-400 dark:bg-blue-700 border-b-4 lg:border-b-0 lg:border-l-4 border-foreground p-8 flex items-center justify-center transition-colors group-hover:bg-blue-500">
+             <div className="flex flex-col lg:flex-row-reverse border-4 border-foreground bg-white shadow-[12px_12px_0px_rgba(0,0,0,1)] overflow-hidden group">
+              <div className="w-full lg:w-2/5 bg-blue-400 border-b-4 lg:border-b-0 lg:border-l-4 border-foreground p-8 flex items-center justify-center transition-colors group-hover:bg-blue-500">
                 <span className="text-5xl sm:text-6xl font-black text-center transform rotate-6 transition-transform group-hover:rotate-0 group-hover:scale-110">CLONE<br/>APP</span>
               </div>
               <div className="p-8 lg:p-12 w-full lg:w-3/5 flex flex-col justify-center">
@@ -123,10 +123,10 @@ export default function ProfilePage() {
         <section id="contact" className="pt-16 sm:pt-24 pb-32 flex flex-col items-center text-center">
           <h2 className="text-6xl sm:text-8xl md:text-9xl font-black uppercase mb-12 transform rotate-1 border-b-8 border-foreground">Let's Talk!</h2>
           <div className="flex flex-col sm:flex-row justify-center gap-6 sm:gap-8 w-full max-w-4xl px-4">
-            <a href="mailto:contact@example.com" className="w-full sm:w-1/2 bg-blue-500 dark:bg-blue-600 text-white text-3xl sm:text-4xl font-black px-8 py-8 border-4 border-foreground shadow-[12px_12px_0px_rgba(0,0,0,1)] dark:shadow-[12px_12px_0px_rgba(255,255,255,1)] hover:translate-x-2 hover:translate-y-2 hover:shadow-[4px_4px_0px_rgba(0,0,0,1)] dark:hover:shadow-[4px_4px_0px_rgba(255,255,255,1)] active:translate-x-3 active:translate-y-3 active:shadow-none transition-all uppercase flex justify-center items-center gap-4">
+            <a href="mailto:contact@example.com" className="w-full sm:w-1/2 bg-blue-500 text-white text-3xl sm:text-4xl font-black px-8 py-8 border-4 border-foreground shadow-[12px_12px_0px_rgba(0,0,0,1)] hover:translate-x-2 hover:translate-y-2 hover:shadow-[4px_4px_0px_rgba(0,0,0,1)] active:translate-x-3 active:translate-y-3 active:shadow-none transition-all uppercase flex justify-center items-center gap-4">
                Email Me
             </a>
-            <a href="https://github.com/CassTerra77" target="_blank" rel="noopener noreferrer" className="w-full sm:w-1/2 bg-white dark:bg-black text-black dark:text-white text-3xl sm:text-4xl font-black px-8 py-8 border-4 border-foreground shadow-[12px_12px_0px_rgba(0,0,0,1)] dark:shadow-[12px_12px_0px_rgba(255,255,255,1)] hover:translate-x-2 hover:translate-y-2 hover:shadow-[4px_4px_0px_rgba(0,0,0,1)] dark:hover:shadow-[4px_4px_0px_rgba(255,255,255,1)] active:translate-x-3 active:translate-y-3 active:shadow-none transition-all uppercase flex justify-center items-center gap-4">
+            <a href="https://github.com/CassTerra77" target="_blank" rel="noopener noreferrer" className="w-full sm:w-1/2 bg-black text-white text-3xl sm:text-4xl font-black px-8 py-8 border-4 border-foreground shadow-[12px_12px_0px_rgba(0,0,0,1)] hover:translate-x-2 hover:translate-y-2 hover:shadow-[4px_4px_0px_rgba(0,0,0,1)] active:translate-x-3 active:translate-y-3 active:shadow-none transition-all uppercase flex justify-center items-center gap-4">
                GitHub
             </a>
           </div>
