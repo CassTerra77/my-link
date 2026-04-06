@@ -68,7 +68,3 @@ CREATE TABLE links (
 - **소프트 네오브루탈리즘**: 파스텔톤 배경 + 굵은 검정 테두리 + 날카로운 그림자.
 
 ---
-
-### 대시보드 디자인 목업
-![Dashboard Mockup](./dashboard_mockup.png)
-
