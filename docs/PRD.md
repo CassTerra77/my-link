@@ -46,8 +46,9 @@
 | Column | Type | Note |
 | :--- | :--- | :--- |
 | `id` | UUID (PK) | Supabase Auth UID 연동 |
-| `nickname` | Text (Unique) | URL 경로로 사용됨 |
-| `display_name` | Text | 실제 노출되는 이름 |
+| `nickname` | Text (Unique) | URL 경로로 사용됨 (slug) |
+| `username` | Text | 실제 사용자의 성함/이름 |
+| `display_name` | Text | 프로필 상단에 노출되는 활동명/닉네임 |
 | `bio` | Text | 짧은 자기소개 |
 | `updated_at` | Timestamp | 최종 수정 시간 |
 
