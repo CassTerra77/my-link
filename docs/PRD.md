@@ -42,26 +42,29 @@
 
 ### 4-2. 데이터 모델링 (Supabase/PostgreSQL)
 
-#### `profiles` (Table)
-| Column | Type | Note |
-| :--- | :--- | :--- |
-| `id` | UUID (PK) | Supabase Auth UID 연동 |
-| `nickname` | Text (Unique) | URL 경로로 사용됨 (slug) |
-| `username` | Text | 실제 사용자의 성함/이름 |
-| `display_name` | Text | 프로필 상단에 노출되는 활동명/닉네임 |
-| `bio` | Text | 짧은 자기소개 |
-| `updated_at` | Timestamp | 최종 수정 시간 |
+```sql
+-- Profiles Table
+-- 사용자의 기본 프로필 정보를 저장
+CREATE TABLE profiles (
+  id UUID PRIMARY KEY REFERENCES auth.users ON DELETE CASCADE,
+  nickname TEXT UNIQUE NOT NULL,    -- URL slug (예: mylink.com/nickname)
+  username TEXT,                    -- 사용자의 실제 이름
+  display_name TEXT,                -- 프로필에 표시될 이름
+  bio TEXT,                         -- 자기소개
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
 
-#### `links` (Table - Sub-collection 개념)
-*`profiles` 테이블의 `id`를 외래 키(FK)로 참조하는 테이블입니다.*
-| Column | Type | Note |
-| :--- | :--- | :--- |
-| `id` | UUID (PK) | |
-| `profile_id` | UUID (FK) | `profiles.id` 참조 |
-| `title` | Text | 링크 제목 (인라인 편집 가능) |
-| `url` | Text | 목적지 URL (인라인 편집 가능) |
-| `click_count` | Integer | 추후 통계용 (기본값 0) |
-| `created_at` | Timestamp | |
+-- Links Table (Relational Sub-collection)
+-- 각 프로필에 종속된 링크 리스트를 저장
+CREATE TABLE links (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  profile_id UUID REFERENCES profiles(id) ON DELETE CASCADE,
+  title TEXT NOT NULL,              -- 링크 제목 (인라인 편집 가능)
+  url TEXT NOT NULL,                -- 목적지 URL (인라인 편집 가능)
+  click_count INTEGER DEFAULT 0,    -- 클릭 통계
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+```
 
 ### 4-3. 전체 디자인 테마
 - **소프트 네오브루탈리즘**: 파스텔톤 배경 + 굵은 검정 테두리 + 날카로운 그림자.
