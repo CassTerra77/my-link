@@ -114,6 +114,9 @@
     --radius-2xl: calc(var(--radius) * 1.8);
     --radius-3xl: calc(var(--radius) * 2.2);
     --radius-4xl: calc(var(--radius) * 2.6);
+
+    --shadow-neo: 4px 4px 0px 0px rgba(0, 0, 0, 1);
+    --shadow-neo-hover: 2px 2px 0px 0px rgba(0, 0, 0, 1);
 }
 
 @layer base {
