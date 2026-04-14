@@ -21,8 +21,16 @@ import { Label } from "@/components/ui/label"
 import { Link } from "@/data/links"
 
 const formSchema = z.object({
-  title: z.string().min(1, "제목을 입력해주세요."),
-  url: z.string().url("올바른 URL을 입력해주세요."),
+  title: z
+    .string()
+    .trim()
+    .min(2, "제목은 최소 2글자 이상이어야 합니다.")
+    .max(20, "제목은 최대 20글자까지 가능합니다."),
+  url: z
+    .string()
+    .trim()
+    .min(1, "URL을 입력해주세요.")
+    .url("올바른 URL 형식이 아닙니다. (예: https://...)"),
 })
 
 type FormValues = z.infer<typeof formSchema>
@@ -37,9 +45,10 @@ export function LinkAddDialog({ onAdd }: LinkAddDialogProps) {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm<FormValues>({
     resolver: zodResolver(formSchema),
+    mode: "onChange",
     defaultValues: {
       title: "",
       url: "",
@@ -89,10 +98,10 @@ export function LinkAddDialog({ onAdd }: LinkAddDialogProps) {
               id="title"
               placeholder="예: 나의 블로그"
               {...register("title")}
-              className={errors.title ? "border-red-500" : "border-black"}
+              className={errors.title ? "border-red-500 shadow-[2px_2px_0px_0px_rgba(239,68,68,1)]" : "border-black"}
             />
             {errors.title && (
-              <p className="text-sm font-bold text-red-500">{errors.title.message}</p>
+              <p className="text-sm font-black text-red-500 italic uppercase tracking-tight">{errors.title.message}</p>
             )}
           </div>
           <div className="grid gap-2">
@@ -101,16 +110,21 @@ export function LinkAddDialog({ onAdd }: LinkAddDialogProps) {
               id="url"
               placeholder="https://example.com"
               {...register("url")}
-              className={errors.url ? "border-red-500" : "border-black"}
+              className={errors.url ? "border-red-500 shadow-[2px_2px_0px_0px_rgba(239,68,68,1)]" : "border-black"}
             />
             {errors.url && (
-              <p className="text-sm font-bold text-red-500">{errors.url.message}</p>
+              <p className="text-sm font-black text-red-500 italic uppercase tracking-tight">{errors.url.message}</p>
             )}
           </div>
           <DialogFooter className="pt-4">
             <Button 
               type="submit" 
-              className="w-full h-12 text-lg font-bold border-2 border-black shadow-neo bg-[#FFD7E8] text-black hover:bg-[#FFB6D9] transition-all"
+              disabled={!isValid}
+              className={`w-full h-12 text-lg font-bold border-2 border-black transition-all ${
+                isValid 
+                ? "shadow-neo bg-[#FFD7E8] text-black hover:bg-[#FFB6D9] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none" 
+                : "opacity-50 bg-gray-200 cursor-not-allowed shadow-none"
+              }`}
             >
               추가 완료
             </Button>
