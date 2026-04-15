@@ -66,9 +66,8 @@ export default function Page() {
                 className="block no-underline"
               >
                 <Card
-                  className={`flex flex-row items-center gap-4 border-2 border-black p-4 transition-all shadow-neo hover:shadow-neo-hover active:translate-x-[2px] active:translate-y-[2px] ${
-                    colors[index % colors.length]
-                  }`}
+                  className={`flex flex-row items-center gap-4 border-2 border-black p-4 transition-all shadow-neo hover:shadow-neo-hover active:translate-x-[2px] active:translate-y-[2px] ${colors[index % colors.length]
+                    }`}
                 >
                   {link.icon && (
                     <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border-2 border-black bg-white p-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
