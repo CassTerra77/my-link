@@ -1,5 +1,6 @@
 import { initializeApp, getApps, getApp } from "firebase/app";
 import { getAnalytics, isSupported } from "firebase/analytics";
+import { getFirestore } from "firebase/firestore";
 
 // Firebase configuration from environment variables
 const firebaseConfig = {
@@ -16,6 +17,9 @@ const firebaseConfig = {
 // getApps().length > 0 ? getApp() : initializeApp(firebaseConfig) ensures we don't re-initialize on hot reloads
 const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
 
+// Initialize Firestore
+const db = getFirestore(app);
+
 // Initialize Analytics (Client-side only)
 const initAnalytics = async () => {
   if (typeof window !== "undefined") {
@@ -29,4 +33,4 @@ const initAnalytics = async () => {
 
 const analytics = typeof window !== "undefined" ? initAnalytics() : null;
 
-export { app, analytics };
+export { app, analytics, db };

@@ -3,6 +3,7 @@ export interface Link {
   title: string;
   url: string;
   icon?: string;
+  createdAt?: number;
 }
 
 export const links: Link[] = [
