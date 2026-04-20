@@ -5,8 +5,9 @@ import { Loader2 } from "lucide-react"
 import { links as initialLinks, Link } from "@/data/links"
 import { Card } from "@/components/ui/card"
 import { LinkAddDialog } from "@/components/link-add-dialog"
+import { LinkCard } from "@/components/link-card"
 import { db } from "@/lib/firebase"
-import { collection, doc, setDoc, getDocs, query, orderBy } from "firebase/firestore"
+import { collection, doc, setDoc, getDocs, query, orderBy, deleteDoc } from "firebase/firestore"
 
 export default function Page() {
   const [links, setLinks] = React.useState<Link[]>([])
@@ -72,6 +73,30 @@ export default function Page() {
     }
   }
 
+  // 링크 수정 핸들러
+  const handleUpdateLink = async (id: string, updatedFields: Partial<Link>) => {
+    try {
+      const linkRef = doc(db, "users/anonymous/links", id)
+      await setDoc(linkRef, updatedFields, { merge: true })
+      setLinks((prev) =>
+        prev.map((link) => (link.id === id ? { ...link, ...updatedFields } : link))
+      )
+    } catch (e) {
+      console.error("Failed to update link in Firestore", e)
+    }
+  }
+
+  // 링크 삭제 핸들러
+  const handleDeleteLink = async (id: string) => {
+    try {
+      const linkRef = doc(db, "users/anonymous/links", id)
+      await deleteDoc(linkRef)
+      setLinks((prev) => prev.filter((link) => link.id !== id))
+    } catch (e) {
+      console.error("Failed to delete link in Firestore", e)
+    }
+  }
+
   // 하이드레이션 오류 방지를 위해 로드된 후에만 렌더링
   if (!isLoaded) {
     return (
@@ -95,29 +120,13 @@ export default function Page() {
         <main className="flex flex-col gap-4">
           <div className="flex flex-col gap-4">
             {links.map((link, index) => (
-              <a
+              <LinkCard
                 key={link.id}
-                href={link.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block no-underline"
-              >
-                <Card
-                  className={`flex flex-row items-center gap-4 border-2 border-black p-4 transition-all shadow-neo hover:shadow-neo-hover active:translate-x-[2px] active:translate-y-[2px] ${colors[index % colors.length]
-                    }`}
-                >
-                  {link.icon && (
-                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border-2 border-black bg-white p-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
-                      <img
-                        src={link.icon}
-                        alt={link.title}
-                        className="h-full w-full object-contain"
-                      />
-                    </div>
-                  )}
-                  <span className="text-xl font-black text-black">{link.title}</span>
-                </Card>
-              </a>
+                link={link}
+                colorClass={colors[index % colors.length]}
+                onUpdate={handleUpdateLink}
+                onDelete={handleDeleteLink}
+              />
             ))}
           </div>
 
