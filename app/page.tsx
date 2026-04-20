@@ -77,9 +77,10 @@ export default function Page() {
   const handleUpdateLink = async (id: string, updatedFields: Partial<Link>) => {
     try {
       const linkRef = doc(db, "users/anonymous/links", id)
-      await setDoc(linkRef, updatedFields, { merge: true })
+      const updateData = { ...updatedFields, updatedAt: Date.now() }
+      await setDoc(linkRef, updateData, { merge: true })
       setLinks((prev) =>
-        prev.map((link) => (link.id === id ? { ...link, ...updatedFields } : link))
+        prev.map((link) => (link.id === id ? { ...link, ...updateData } : link))
       )
     } catch (e) {
       console.error("Failed to update link in Firestore", e)
