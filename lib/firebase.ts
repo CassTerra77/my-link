@@ -1,6 +1,7 @@
 import { initializeApp, getApps, getApp } from "firebase/app";
 import { getAnalytics, isSupported } from "firebase/analytics";
 import { getFirestore } from "firebase/firestore";
+import { getAuth, GoogleAuthProvider } from "firebase/auth";
 
 // Firebase configuration from environment variables
 const firebaseConfig = {
@@ -20,6 +21,10 @@ const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
 // Initialize Firestore
 const db = getFirestore(app);
 
+// Initialize Auth
+const auth = getAuth(app);
+const googleProvider = new GoogleAuthProvider();
+
 // Initialize Analytics (Client-side only)
 const initAnalytics = async () => {
   if (typeof window !== "undefined") {
@@ -33,4 +38,4 @@ const initAnalytics = async () => {
 
 const analytics = typeof window !== "undefined" ? initAnalytics() : null;
 
-export { app, analytics, db };
+export { app, analytics, db, auth, googleProvider };

@@ -14,7 +14,7 @@
 - **프런트엔드**: Next.js 16 (App Router, Turbopack), TypeScript
 - **스타일링**: Tailwind CSS 4, shadcn/ui
 - **백엔드/DB**: Supabase (PostgreSQL, Auth)
-- **UI/아이콘**: Radix UI (Base UI), Lucide React
+- **UI/아이콘**: Base UI (@base-ui/react), Lucide React (주의: Radix UI 사용 금지)
 - **포맷팅/린팅**: Prettier (Tailwind CSS 플러그인 포함), ESLint
 
 ## 3. 주요 명령어
@@ -31,7 +31,7 @@
 - **디자인 테마**: **Soft Neobrutalism** 스타일을 유지합니다.
   - 파스텔 배경색, 굵은 검정색 테두리 (2px~3px), 날카로운 오프셋 그림자.
 - **컴포넌트 관리**: 
-  - 새로운 UI 컴포넌트는 `npx shadcn@latest add [component]`를 통해 추가하고 `components/ui`에 배치합니다.
+  - 새로운 UI 컴포넌트는 `npx shadcn@latest add [component]`를 통해 추가하고 `components/ui`에 배치합니다. 또한 반드시 Base UI를 기반으로 작성되어야 합니다.
   - 공통 컴포넌트는 `components/`에 배치합니다.
 - **기능 구현 가이드**:
   - **인라인 편집**: 텍스트 클릭 시 즉시 편집이 가능한 UI/UX를 구현합니다.

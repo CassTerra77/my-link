@@ -78,7 +78,7 @@ export function LinkAddDialog({ onAdd }: LinkAddDialogProps) {
       <DialogTrigger
         render={
           <Button 
-            className="w-full h-14 text-lg font-bold border-2 border-black shadow-neo hover:shadow-neo-hover hover:translate-x-[2px] hover:translate-y-[2px] transition-all bg-[#D1FFD7] text-black"
+            className="w-full h-14 text-lg font-bold border-2 border-black shadow-neo hover:shadow-neo-hover hover:translate-x-[2px] hover:translate-y-[2px] transition-all bg-[#D7E8FF] text-black"
           >
             <Plus className="mr-2 h-5 w-5" />
             새 링크 추가하기
