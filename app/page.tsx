@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { Loader2, LogOut } from "lucide-react"
-import { links as initialLinks, Link } from "@/data/links"
+import { Link } from "@/data/links"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { LinkAddDialog } from "@/components/link-add-dialog"
@@ -10,24 +10,22 @@ import { LinkCard } from "@/components/link-card"
 import { ProfileDropdown } from "@/components/profile-dropdown"
 import { InlineEdit } from "@/components/inline-edit"
 import { toast } from "sonner"
-import { db, auth, googleProvider } from "@/lib/firebase"
-import { collection, doc, setDoc, getDoc, getDocs, query, orderBy, deleteDoc, where } from "firebase/firestore"
+import { auth, googleProvider } from "@/lib/firebase"
 import { signInWithPopup, signOut, onAuthStateChanged, User } from "firebase/auth"
 import { cn } from "@/lib/utils"
-
-export interface UserProfile {
-  id: string;
-  display_name: string;
-  username: string;
-  bio: string;
-}
+import { useProfile } from "@/hooks/use-profile"
+import { useLinks } from "@/hooks/use-links"
+import { UserProfile } from "@/types"
 
 export default function Page() {
-  const [profile, setProfile] = React.useState<UserProfile | null>(null)
-  const [links, setLinks] = React.useState<Link[]>([])
-  const [isLoaded, setIsLoaded] = React.useState(false)
   const [user, setUser] = React.useState<User | null>(null)
+  const [isAuthLoaded, setIsAuthLoaded] = React.useState(false)
   const [isLoggingIn, setIsLoggingIn] = React.useState(false)
+
+  const { profile, isLoading: isProfileLoading, updateProfile } = useProfile(user)
+  const { links, isLoading: isLinksLoading, addLink, updateLink, deleteLink } = useLinks(user?.uid)
+
+  const isLoaded = isAuthLoaded && (!user || (!isProfileLoading && !isLinksLoading))
 
   const colors = [
     "bg-[#FFD7E8]", // Soft Pink
@@ -37,83 +35,11 @@ export default function Page() {
     "bg-[#E8D7FF]", // Soft Purple
   ]
 
-  const fetchLinks = async (uid: string) => {
-    setIsLoaded(false)
-    try {
-      const linksRef = collection(db, `users/${uid}/links`)
-      const q = query(linksRef, orderBy("createdAt", "desc"))
-      const querySnapshot = await getDocs(q)
-
-      if (querySnapshot.empty) {
-        const promises = initialLinks.map((link, index) => {
-          return setDoc(doc(linksRef, link.id), {
-            ...link,
-            createdAt: Date.now() - index * 1000,
-          })
-        })
-        await Promise.all(promises)
-
-        // 시딩 후 다시 데이터 가져오기
-        const newSnapshot = await getDocs(q)
-        const fetchedLinks: Link[] = []
-        newSnapshot.forEach((docSnap) => {
-          fetchedLinks.push(docSnap.data() as Link)
-        })
-        setLinks(fetchedLinks)
-      } else {
-        const fetchedLinks: Link[] = []
-        querySnapshot.forEach((docSnap) => {
-          fetchedLinks.push(docSnap.data() as Link)
-        })
-        setLinks(fetchedLinks)
-      }
-    } catch (error) {
-      console.error("Error fetching links from Firestore", error)
-    } finally {
-      setIsLoaded(true)
-    }
-  }
-
-  const ensureUserProfile = async (currentUser: User) => {
-    try {
-      const userRef = doc(db, "users", currentUser.uid)
-      const userSnap = await getDoc(userRef)
-      const email = currentUser.email || ""
-      const defaultDisplayName = email.split("@")[0] || currentUser.uid.substring(0, 8)
-
-      if (!userSnap.exists() || !userSnap.data()?.display_name) {
-        console.log("프로필 정보 세팅 중...", currentUser.uid);
-        const newData = {
-          id: currentUser.uid,
-          display_name: userSnap.data()?.display_name || defaultDisplayName,
-          username: userSnap.data()?.username || currentUser.displayName || "",
-          bio: userSnap.data()?.bio || "나의 모든 링크를 한 눈에 확인하세요.",
-          updated_at: userSnap.data()?.updated_at || Date.now()
-        }
-
-        await setDoc(userRef, newData, { merge: true })
-        setProfile(newData as UserProfile)
-        console.log("✅ 프로필 필수 필드 업데이트 완료");
-      } else {
-        setProfile(userSnap.data() as UserProfile)
-      }
-    } catch (error: any) {
-      console.error("Failed to ensure user profile:", error)
-      alert("Firestore 권한 또는 저장 에러가 발생했습니다: " + error.message)
-    }
-  }
-
   // 인증 상태 감지
   React.useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser)
-      if (currentUser) {
-        ensureUserProfile(currentUser)
-        fetchLinks(currentUser.uid)
-      } else {
-        setLinks([])
-        setIsLoaded(true)
-      }
+      setIsAuthLoaded(true)
     })
 
     return () => unsubscribe()
@@ -147,10 +73,10 @@ export default function Page() {
   const handleAddLink = async (newLink: Link) => {
     if (!user) return
     try {
-      await setDoc(doc(db, `users/${user.uid}/links`, newLink.id), newLink)
-      setLinks((prev) => [newLink, ...prev])
+      await addLink(newLink)
     } catch (e) {
-      console.error("Failed to add new link to Firestore", e)
+      console.error("Failed to add new link", e)
+      toast.error("링크 추가에 실패했습니다.")
     }
   }
 
@@ -158,14 +84,10 @@ export default function Page() {
   const handleUpdateLink = async (id: string, updatedFields: Partial<Link>) => {
     if (!user) return
     try {
-      const linkRef = doc(db, `users/${user.uid}/links`, id)
-      const updateData = { ...updatedFields, updatedAt: Date.now() }
-      await setDoc(linkRef, updateData, { merge: true })
-      setLinks((prev) =>
-        prev.map((link) => (link.id === id ? { ...link, ...updateData } : link))
-      )
+      await updateLink({ id, updatedFields })
     } catch (e) {
-      console.error("Failed to update link in Firestore", e)
+      console.error("Failed to update link", e)
+      toast.error("링크 수정에 실패했습니다.")
     }
   }
 
@@ -173,11 +95,10 @@ export default function Page() {
   const handleDeleteLink = async (id: string) => {
     if (!user) return
     try {
-      const linkRef = doc(db, `users/${user.uid}/links`, id)
-      await deleteDoc(linkRef)
-      setLinks((prev) => prev.filter((link) => link.id !== id))
+      await deleteLink(id)
     } catch (e) {
-      console.error("Failed to delete link in Firestore", e)
+      console.error("Failed to delete link", e)
+      toast.error("링크 삭제에 실패했습니다.")
     }
   }
 
@@ -187,39 +108,18 @@ export default function Page() {
     if (profile[field] === value) return true;
 
     if (field === 'username' || field === 'display_name') {
-      if (value.length < 2) {
+      if (value.trim().length < 2) {
         toast.error("최소 2글자 이상 입력해주세요.");
-        return false;
-      }
-      
-      try {
-        const usersRef = collection(db, "users");
-        const q = query(usersRef, where(field, "==", value));
-        const snapshot = await getDocs(q);
-        const others = snapshot.docs.filter(docSnap => docSnap.id !== user.uid);
-        
-        if (others.length > 0) {
-          toast.error(`이미 사용중인 ${field === 'username' ? '유저네임' : '디스플레이 네임'}입니다.`);
-          return false;
-        }
-      } catch (error) {
-        console.error("중복 확인 실패", error);
-        toast.error("중복 확인 중 오류가 발생했습니다.");
         return false;
       }
     }
 
-    try {
-      const userRef = doc(db, "users", user.uid);
-      await setDoc(userRef, { [field]: value, updated_at: Date.now() }, { merge: true });
-      setProfile(prev => prev ? { ...prev, [field]: value } : null);
-      toast.success("프로필이 업데이트되었습니다.");
-      return true;
-    } catch (error) {
+    // 낙관적 업데이트 효과를 위해 비동기 대기(await) 없이 바로 true를 반환합니다.
+    updateProfile({ field, value }).catch((error) => {
       console.error("프로필 업데이트 실패", error);
-      toast.error("업데이트에 실패했습니다.");
-      return false;
-    }
+    });
+    
+    return true;
   }
 
   // 하이드레이션 오류 방지를 위해 로드된 후에만 렌더링
