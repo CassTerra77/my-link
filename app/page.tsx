@@ -8,8 +8,10 @@ import { Button } from "@/components/ui/button"
 import { LinkAddDialog } from "@/components/link-add-dialog"
 import { LinkCard } from "@/components/link-card"
 import { ProfileDropdown } from "@/components/profile-dropdown"
+import { InlineEdit } from "@/components/inline-edit"
+import { toast } from "sonner"
 import { db, auth, googleProvider } from "@/lib/firebase"
-import { collection, doc, setDoc, getDoc, getDocs, query, orderBy, deleteDoc } from "firebase/firestore"
+import { collection, doc, setDoc, getDoc, getDocs, query, orderBy, deleteDoc, where } from "firebase/firestore"
 import { signInWithPopup, signOut, onAuthStateChanged, User } from "firebase/auth"
 import { cn } from "@/lib/utils"
 
@@ -179,6 +181,47 @@ export default function Page() {
     }
   }
 
+  // 프로필 수정 핸들러
+  const handleProfileUpdate = async (field: keyof UserProfile, value: string): Promise<boolean> => {
+    if (!user || !profile) return false;
+    if (profile[field] === value) return true;
+
+    if (field === 'username' || field === 'display_name') {
+      if (value.length < 2) {
+        toast.error("최소 2글자 이상 입력해주세요.");
+        return false;
+      }
+      
+      try {
+        const usersRef = collection(db, "users");
+        const q = query(usersRef, where(field, "==", value));
+        const snapshot = await getDocs(q);
+        const others = snapshot.docs.filter(docSnap => docSnap.id !== user.uid);
+        
+        if (others.length > 0) {
+          toast.error(`이미 사용중인 ${field === 'username' ? '유저네임' : '디스플레이 네임'}입니다.`);
+          return false;
+        }
+      } catch (error) {
+        console.error("중복 확인 실패", error);
+        toast.error("중복 확인 중 오류가 발생했습니다.");
+        return false;
+      }
+    }
+
+    try {
+      const userRef = doc(db, "users", user.uid);
+      await setDoc(userRef, { [field]: value, updated_at: Date.now() }, { merge: true });
+      setProfile(prev => prev ? { ...prev, [field]: value } : null);
+      toast.success("프로필이 업데이트되었습니다.");
+      return true;
+    } catch (error) {
+      console.error("프로필 업데이트 실패", error);
+      toast.error("업데이트에 실패했습니다.");
+      return false;
+    }
+  }
+
   // 하이드레이션 오류 방지를 위해 로드된 후에만 렌더링
   if (!isLoaded) {
     return (
@@ -270,13 +313,35 @@ export default function Page() {
                   <span className="text-4xl font-black">{profile?.username?.charAt(0).toUpperCase() || "U"}</span>
                 )}
               </div>
-              <h1 className="text-3xl font-black tracking-tighter text-black">
-                {profile?.username || "사용자"}
-              </h1>
-              <p className="font-medium text-black/50 text-sm mt-1">@{profile?.display_name || "id"}</p>
-              <p className="font-medium text-black mt-4 text-base">
-                {profile?.bio || "나의 모든 링크를 한 눈에 확인하세요."}
-              </p>
+              <div className="w-full flex justify-center">
+                <InlineEdit
+                  value={profile?.username || ""}
+                  placeholder="유저네임"
+                  onSave={async (val) => handleProfileUpdate("username", val)}
+                  textClass="text-3xl font-black tracking-tighter text-black"
+                  inputClass="text-3xl font-black tracking-tighter text-black text-center w-full max-w-[200px]"
+                />
+              </div>
+              <div className="mt-1 w-full flex justify-center items-center text-black/50">
+                <span className="font-medium text-sm">@</span>
+                <InlineEdit
+                  value={profile?.display_name || ""}
+                  placeholder="id"
+                  onSave={async (val) => handleProfileUpdate("display_name", val)}
+                  textClass="font-medium text-sm"
+                  inputClass="font-medium text-black/50 text-sm text-center w-full max-w-[150px]"
+                />
+              </div>
+              <div className="mt-4 w-full flex justify-center">
+                <InlineEdit
+                  value={profile?.bio || ""}
+                  placeholder="나의 모든 링크를 한 눈에 확인하세요."
+                  onSave={async (val) => handleProfileUpdate("bio", val)}
+                  textClass="font-medium text-black text-base text-center"
+                  inputClass="font-medium text-black text-base text-center w-full max-w-[300px]"
+                  multiline
+                />
+              </div>
             </header>
 
             <main className="flex flex-col gap-4 w-full">
