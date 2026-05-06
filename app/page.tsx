@@ -137,16 +137,28 @@ export default function Page() {
       {/* Top Bar Header */}
       <div className="w-full flex justify-between items-center bg-black text-white px-6 py-4 sticky top-0 z-50 shadow-[0_2px_0_0_rgba(0,0,0,1)]">
         <div className="font-black text-xl italic uppercase tracking-tighter">MyLink</div>
-        {user ? (
-          <ProfileDropdown
-            username={profile?.username || user.displayName || "관리자"}
-            displayName={profile?.display_name || ""}
-            photoURL={user.photoURL}
-            onLogout={handleLogout}
-          />
-        ) : (
-          <div className="font-bold text-sm text-white/50">Admin</div>
-        )}
+        <div className="flex items-center gap-4">
+          {user && profile?.display_name && (
+            <a
+              href={`/${profile.display_name}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm font-bold bg-primary text-primary-foreground px-4 py-2 rounded-full border-2 border-black shadow-[2px_2px_0_0_#000] hover:-translate-y-0.5 hover:shadow-[3px_3px_0_0_#000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all"
+            >
+              내 페이지
+            </a>
+          )}
+          {user ? (
+            <ProfileDropdown
+              username={profile?.username || user.displayName || "관리자"}
+              displayName={profile?.display_name || ""}
+              photoURL={user.photoURL}
+              onLogout={handleLogout}
+            />
+          ) : (
+            <div className="font-bold text-sm text-white/50">Admin</div>
+          )}
+        </div>
       </div>
 
       <div className={cn("flex w-full flex-col items-center gap-6 p-6 mt-8 mb-20", user ? "max-w-md" : "max-w-5xl")}>

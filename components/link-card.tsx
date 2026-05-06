@@ -38,11 +38,12 @@ type FormValues = z.infer<typeof formSchema>
 interface LinkCardProps {
   link: Link
   colorClass: string
-  onUpdate: (id: string, newLink: Partial<Link>) => Promise<void>
-  onDelete: (id: string) => Promise<void>
+  readonly?: boolean
+  onUpdate?: (id: string, newLink: Partial<Link>) => Promise<void>
+  onDelete?: (id: string) => Promise<void>
 }
 
-export function LinkCard({ link, colorClass, onUpdate, onDelete }: LinkCardProps) {
+export function LinkCard({ link, colorClass, readonly, onUpdate, onDelete }: LinkCardProps) {
   const [isEditing, setIsEditing] = React.useState(false)
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = React.useState(false)
   const [isDeleting, setIsDeleting] = React.useState(false)
@@ -71,6 +72,8 @@ export function LinkCard({ link, colorClass, onUpdate, onDelete }: LinkCardProps
   }
 
   const onSubmit = async (data: FormValues) => {
+    if (!onUpdate) return
+
     // 도메인 추출하여 파비콘 URL 생성
     const domain = new URL(data.url).hostname
     const icon = `https://www.google.com/s2/favicons?domain=${domain}&sz=128`
@@ -84,6 +87,8 @@ export function LinkCard({ link, colorClass, onUpdate, onDelete }: LinkCardProps
   }
 
   const handleDelete = async () => {
+    if (!onDelete) return
+    
     setIsDeleting(true)
     try {
       await onDelete(link.id)
@@ -176,30 +181,32 @@ export function LinkCard({ link, colorClass, onUpdate, onDelete }: LinkCardProps
           <span className="text-xl font-black text-black truncate">{link.title}</span>
         </a>
 
-        <div className="flex gap-2 shrink-0">
-          <Button
-            size="icon"
-            onClick={(e) => {
-              e.preventDefault()
-              setIsEditing(true)
-            }}
-            className="w-10 h-10 border-2 border-black bg-white text-black hover:bg-gray-100 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all"
-            aria-label="편집"
-          >
-            <Pencil className="h-4 w-4" />
-          </Button>
-          <Button
-            size="icon"
-            onClick={(e) => {
-              e.preventDefault()
-              setIsDeleteDialogOpen(true)
-            }}
-            className="w-10 h-10 border-2 border-black bg-[#FFD7E8] text-red-600 hover:bg-[#ffb6d9] shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all"
-            aria-label="삭제"
-          >
-            <Trash2 className="h-4 w-4" />
-          </Button>
-        </div>
+        {!readonly && (
+          <div className="flex gap-2 shrink-0">
+            <Button
+              size="icon"
+              onClick={(e) => {
+                e.preventDefault()
+                setIsEditing(true)
+              }}
+              className="w-10 h-10 border-2 border-black bg-white text-black hover:bg-gray-100 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all"
+              aria-label="편집"
+            >
+              <Pencil className="h-4 w-4" />
+            </Button>
+            <Button
+              size="icon"
+              onClick={(e) => {
+                e.preventDefault()
+                setIsDeleteDialogOpen(true)
+              }}
+              className="w-10 h-10 border-2 border-black bg-[#FFD7E8] text-red-600 hover:bg-[#ffb6d9] shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all"
+              aria-label="삭제"
+            >
+              <Trash2 className="h-4 w-4" />
+            </Button>
+          </div>
+        )}
       </Card>
 
       <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>

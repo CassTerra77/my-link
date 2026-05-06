@@ -83,10 +83,10 @@ export function useProfile(user: User | null) {
       if (context?.previousProfile) {
         queryClient.setQueryData(['profile', uid], context.previousProfile)
       }
-      toast.error(err.message || "업데이트에 실패했습니다.")
+      toast.error(err.message || "업데이트에 실패했습니다.", { duration: 5000 })
     },
     onSuccess: () => {
-      toast.success("프로필이 업데이트되었습니다.")
+      toast.success("프로필이 업데이트되었습니다.", { duration: 5000 })
     },
     onSettled: () => {
       // 무효화를 통해 최신 데이터 보장
