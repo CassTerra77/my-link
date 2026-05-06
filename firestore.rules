@@ -1,0 +1,38 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // 유저 프로필 문서
+    match /users/{userId} {
+      // 읽기: 누구나 읽기 가능
+      allow read: if true;
+      
+      // 쓰기: 로그인되어 있고, 자신의 UID와 일치할 때만
+      allow create, update: if request.auth != null 
+                            && request.auth.uid == userId
+                            && validateProfileData(request.resource.data);
+      allow delete: if request.auth != null && request.auth.uid == userId;
+
+      // 링크 서브 컬렉션
+      match /links/{linkId} {
+        // 읽기: 누구나 읽기 가능
+        allow read: if true;
+        
+        // 쓰기: 부모 문서의 주인이 자신일 때만
+        allow write: if request.auth != null && request.auth.uid == userId;
+      }
+    }
+    
+    // 프로필 데이터 유효성 검사 함수
+    function validateProfileData(data) {
+      return 
+        // 1. 필수 필드 타입 검증 (선택적)
+        (data.username is string && data.display_name is string) &&
+        // 2. 글자 수 검증 (최소 2글자 이상)
+        data.username.size() >= 2 &&
+        data.display_name.size() >= 2 &&
+        // 3. ID 변조 방지 (id 필드는 문서의 ID와 동일해야 함)
+        (data.id == null || data.id == request.auth.uid);
+    }
+  }
+}

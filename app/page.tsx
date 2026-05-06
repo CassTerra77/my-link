@@ -143,7 +143,7 @@ export default function Page() {
               href={`/${profile.display_name}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm font-bold bg-primary text-primary-foreground px-4 py-2 rounded-full border-2 border-black shadow-[2px_2px_0_0_#000] hover:-translate-y-0.5 hover:shadow-[3px_3px_0_0_#000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all"
+              className="text-sm font-bold bg-[#D7E8FF] text-black px-4 py-2 rounded-full border-2 border-black shadow-[2px_2px_0_0_#000] hover:-translate-y-0.5 hover:shadow-[3px_3px_0_0_#000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all"
             >
               내 페이지
             </a>
