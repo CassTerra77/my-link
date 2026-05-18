@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { useParams, notFound } from "next/navigation"
-import { collection, query, where, getDocs, orderBy } from "firebase/firestore"
+import { collection, query, where, getDocs, orderBy, doc, updateDoc, increment } from "firebase/firestore"
 import { db } from "@/lib/firebase"
 import { Loader2 } from "lucide-react"
 import { Link as LinkType } from "@/data/links"
@@ -30,7 +30,7 @@ export default function UserPage() {
 
         const userData = snapshot.docs[0].data()
         const uid = snapshot.docs[0].id
-        setProfile(userData)
+        setProfile({ ...userData, uid })
 
         // Fetch links
         const linksRef = collection(db, `users/${uid}/links`)
@@ -57,6 +57,24 @@ export default function UserPage() {
     notFound()
   }
 
+  const handleLinkClick = async (linkId: string) => {
+    if (!profile?.uid) return
+
+    // Optimistic update
+    setLinks(prev => prev.map(l => 
+      l.id === linkId ? { ...l, clicks: (l.clicks || 0) + 1 } : l
+    ))
+
+    try {
+      const linkRef = doc(db, `users/${profile.uid}/links`, linkId)
+      await updateDoc(linkRef, {
+        clicks: increment(1)
+      })
+    } catch (e) {
+      console.error("Failed to increment click count", e)
+    }
+  }
+
   if (loading) {
     return (
       <div className="flex min-h-svh flex-col items-center justify-center bg-[#F9F9F9] p-6">
@@ -69,7 +87,7 @@ export default function UserPage() {
 
   return (
     <div className="flex min-h-svh flex-col items-center justify-start bg-[#F9F9F9]">
-      <div className="w-full flex justify-center items-center bg-black text-white px-6 py-4 sticky top-0 z-50 shadow-[0_2px_0_0_rgba(0,0,0,1)]">
+      <div className="w-full h-[72px] flex justify-center items-center bg-black text-white px-6 sticky top-0 z-50 shadow-[0_2px_0_0_rgba(0,0,0,1)]">
         <div className="font-black text-xl italic uppercase tracking-tighter">MyLink</div>
       </div>
 
@@ -95,6 +113,7 @@ export default function UserPage() {
                 link={link}
                 colorClass="bg-white"
                 readonly
+                onLinkClick={handleLinkClick}
               />
             ))
           )}

@@ -4,7 +4,7 @@ import * as React from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
-import { Pencil, Trash2, Loader2, Check } from "lucide-react"
+import { Pencil, Trash2, Loader2, Check, BarChart2 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
@@ -41,9 +41,10 @@ interface LinkCardProps {
   readonly?: boolean
   onUpdate?: (id: string, newLink: Partial<Link>) => Promise<void>
   onDelete?: (id: string) => Promise<void>
+  onLinkClick?: (id: string) => void
 }
 
-export function LinkCard({ link, colorClass, readonly, onUpdate, onDelete }: LinkCardProps) {
+export function LinkCard({ link, colorClass, readonly, onUpdate, onDelete, onLinkClick }: LinkCardProps) {
   const [isEditing, setIsEditing] = React.useState(false)
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = React.useState(false)
   const [isDeleting, setIsDeleting] = React.useState(false)
@@ -168,6 +169,11 @@ export function LinkCard({ link, colorClass, readonly, onUpdate, onDelete }: Lin
           target="_blank"
           rel="noopener noreferrer"
           className="flex flex-row items-center gap-4 flex-1 min-w-0 mr-4 no-underline"
+          onClick={() => {
+            if (onLinkClick) {
+              onLinkClick(link.id)
+            }
+          }}
         >
           {link.icon && (
             <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border-2 border-black bg-white p-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
@@ -180,6 +186,11 @@ export function LinkCard({ link, colorClass, readonly, onUpdate, onDelete }: Lin
           )}
           <span className="text-xl font-black text-black truncate">{link.title}</span>
         </a>
+
+        <div className="flex shrink-0 items-center gap-1 mr-4 text-sm font-bold text-black/70">
+          <BarChart2 className="w-4 h-4" />
+          <span>{link.clicks || 0}</span>
+        </div>
 
         {!readonly && (
           <div className="flex gap-2 shrink-0">

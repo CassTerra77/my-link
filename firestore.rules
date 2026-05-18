@@ -18,8 +18,10 @@ service cloud.firestore {
         // 읽기: 누구나 읽기 가능
         allow read: if true;
         
-        // 쓰기: 부모 문서의 주인이 자신일 때만
-        allow write: if request.auth != null && request.auth.uid == userId;
+        // 쓰기: 부모 문서의 주인이 자신일 때
+        allow create, delete: if request.auth != null && request.auth.uid == userId;
+        allow update: if (request.auth != null && request.auth.uid == userId) || 
+                      (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['clicks']));
       }
     }
     

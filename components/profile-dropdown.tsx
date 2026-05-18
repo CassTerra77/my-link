@@ -68,9 +68,9 @@ export function ProfileDropdown({
               프로필 설정
             </Menu.Item>
 
-            <Menu.Item className="flex items-center gap-3 px-3 py-2.5 text-sm font-bold cursor-pointer hover:bg-[#D1FFD7] focus:bg-[#D1FFD7] focus:outline-none select-none transition-colors rounded-lg border-2 border-transparent hover:border-black" onClick={() => toast.info("방문자 통계 기능은 준비 중입니다!")}>
+            <Menu.Item className="flex items-center gap-3 px-3 py-2.5 text-sm font-bold cursor-pointer hover:bg-[#D1FFD7] focus:bg-[#D1FFD7] focus:outline-none select-none transition-colors rounded-lg border-2 border-transparent hover:border-black" onClick={() => window.open("/stats", "_blank")}>
               <BarChart className="w-4 h-4" />
-              방문자 통계 (준비중)
+              통계
             </Menu.Item>
 
             <Menu.Item className="flex items-center gap-3 px-3 py-2.5 text-sm font-bold cursor-pointer hover:bg-[#E8D7FF] focus:bg-[#E8D7FF] focus:outline-none select-none transition-colors rounded-lg border-2 border-transparent hover:border-black" onClick={() => toast.info("고객센터 준비 중입니다.")}>

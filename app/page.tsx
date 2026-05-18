@@ -23,7 +23,7 @@ export default function Page() {
   const [isLoggingIn, setIsLoggingIn] = React.useState(false)
 
   const { profile, isLoading: isProfileLoading, updateProfile } = useProfile(user)
-  const { links, isLoading: isLinksLoading, addLink, updateLink, deleteLink } = useLinks(user?.uid)
+  const { links, isLoading: isLinksLoading, addLink, updateLink, deleteLink, incrementClick } = useLinks(user?.uid)
 
   const isLoaded = isAuthLoaded && (!user || (!isProfileLoading && !isLinksLoading))
 
@@ -102,6 +102,16 @@ export default function Page() {
     }
   }
 
+  // 링크 클릭 핸들러 (대시보드에서도 카운트 증가)
+  const handleLinkClick = async (id: string) => {
+    if (!user) return
+    try {
+      await incrementClick(id)
+    } catch (e) {
+      console.error("Failed to increment click count", e)
+    }
+  }
+
   // 프로필 수정 핸들러
   const handleProfileUpdate = async (field: keyof UserProfile, value: string): Promise<boolean> => {
     if (!user || !profile) return false;
@@ -135,7 +145,7 @@ export default function Page() {
   return (
     <div className="flex min-h-svh flex-col items-center justify-start bg-[#F9F9F9]">
       {/* Top Bar Header */}
-      <div className="w-full flex justify-between items-center bg-black text-white px-6 py-4 sticky top-0 z-50 shadow-[0_2px_0_0_rgba(0,0,0,1)]">
+      <div className="w-full h-[72px] flex justify-between items-center bg-black text-white px-6 sticky top-0 z-50 shadow-[0_2px_0_0_rgba(0,0,0,1)]">
         <div className="font-black text-xl italic uppercase tracking-tighter">MyLink</div>
         <div className="flex items-center gap-4">
           {user && profile?.display_name && (
@@ -269,6 +279,7 @@ export default function Page() {
                     colorClass="bg-white"
                     onUpdate={handleUpdateLink}
                     onDelete={handleDeleteLink}
+                    onLinkClick={handleLinkClick}
                   />
                 ))}
               </div>
