@@ -165,9 +165,7 @@ export default function Page() {
               photoURL={user.photoURL}
               onLogout={handleLogout}
             />
-          ) : (
-            <div className="font-bold text-sm text-white/50">Admin</div>
-          )}
+          ) : null}
         </div>
       </div>
 
